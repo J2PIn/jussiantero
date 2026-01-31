@@ -533,9 +533,8 @@
     <div class="foot">
       Tip: keep the top of the page readable in 60 seconds. Put depth behind links.
     </div>
-  </div>
-  <script>
-  // Add your quotes here. One quote per line.
+  </div><script>
+(function(){
   const QUOTES = [
     "Speed is a strategy when feedback is real.",
     "Clarity beats intensity.",
@@ -543,8 +542,6 @@
     "Most problems are signal problems, not effort problems.",
     "If it’s not measured, it’s a guess."
   ];
-
-  const el = document.getElementById("rotatingQuote");
 
   function shuffle(arr){
     for (let i = arr.length - 1; i > 0; i--){
@@ -554,23 +551,44 @@
     return arr;
   }
 
-  const q = shuffle([...QUOTES]);
-  let i = 0;
+  function init(){
+    const el = document.getElementById("rotatingQuote");
+    if (!el) {
+      console.error("[quotes] Could not find #rotatingQuote element. Check the HTML id.");
+      return;
+    }
+    if (!Array.isArray(QUOTES) || QUOTES.length === 0) {
+      console.error("[quotes] QUOTES array is empty.");
+      el.textContent = "";
+      return;
+    }
 
-  function showNext(){
-    if (!el) return;
+    const q = shuffle([...QUOTES]);
+    let i = 0;
 
-    // Restart animation
-    el.style.animation = "none";
-    el.offsetHeight; // reflow
-    el.style.animation = "";
+    function showNext(){
+      // Restart animation if you have CSS animation on #rotatingQuote
+      el.style.animation = "none";
+      void el.offsetHeight; // reflow
+      el.style.animation = "";
 
-    el.textContent = q[i % q.length];
-    i++;
+      el.textContent = q[i % q.length];
+      i++;
+    }
+
+    showNext();
+    setInterval(showNext, 7000);
+    console.log("[quotes] Rotator started. Quotes:", q.length);
   }
 
-  showNext();
-  setInterval(showNext, 7000); // change to 5000 or 10000 if you want
+  // Run when DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
 </script>
+
 </body>
 </html>
