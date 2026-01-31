@@ -3,114 +3,437 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Your Name — Portfolio</title>
+  <title>Jussi Antero — Portfolio</title>
+  <meta name="description" content="Operator + builder. Strategy, shipping, systems." />
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; color:#111; background:#fff; }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 20px; }
-    .top { display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; }
-    h1 { margin:0; font-size: 40px; letter-spacing:-0.02em; }
-    .tag { margin-top:10px; font-size:18px; color:#333; max-width: 52ch; }
-    .cta a { display:inline-block; margin-right:10px; margin-top:10px; padding:10px 14px; border:1px solid #111; border-radius:10px; text-decoration:none; color:#111; }
-    .cta a.primary { background:#111; color:#fff; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:22px; }
-    .card { border:1px solid #eee; border-radius:14px; padding:16px; background:#fafafa; }
-    .card h3 { margin:0 0 8px 0; }
-    .muted { color:#666; }
-    h2 { margin-top:44px; font-size:22px; }
-    ul { margin: 10px 0 0; padding-left: 18px; }
-    .foot { margin-top:56px; color:#666; font-size:14px; }
+    :root{
+      --bg: #070A12;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.085);
+      --stroke: rgba(255,255,255,0.12);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.68);
+      --muted2: rgba(255,255,255,0.55);
+      --shadow: 0 18px 45px rgba(0,0,0,0.45);
+      --r: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      color:var(--text);
+      background: radial-gradient(900px 600px at 10% 0%, rgba(122,92,255,0.22), transparent 60%),
+                  radial-gradient(900px 600px at 90% 10%, rgba(0,214,255,0.18), transparent 55%),
+                  radial-gradient(700px 500px at 50% 100%, rgba(0,255,133,0.10), transparent 60%),
+                  var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.35;
+      overflow-x:hidden;
+    }
+
+    /* animated “alive” glow */
+    .glow {
+      position: fixed;
+      inset: -20vh -20vw;
+      background:
+        radial-gradient(closest-side at 20% 30%, rgba(122,92,255,0.18), transparent 60%),
+        radial-gradient(closest-side at 70% 20%, rgba(0,214,255,0.16), transparent 60%),
+        radial-gradient(closest-side at 55% 80%, rgba(0,255,133,0.10), transparent 60%);
+      filter: blur(22px);
+      animation: drift 16s ease-in-out infinite alternate;
+      pointer-events:none;
+      opacity:0.9;
+    }
+    @keyframes drift{
+      0% { transform: translate3d(-1.5%, -1%, 0) scale(1.02); }
+      100% { transform: translate3d(1.5%, 1.2%, 0) scale(1.06); }
+    }
+
+    .wrap{ max-width: 1060px; margin: 0 auto; padding: 44px 18px 80px; position:relative; }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom: 22px; gap: 12px; flex-wrap:wrap;
+    }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 10px 12px;
+      border: 1px solid var(--stroke);
+      border-radius: 999px;
+      background: rgba(0,0,0,0.18);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .dot{
+      width:9px; height:9px; border-radius:50%;
+      background: rgba(0,255,133,0.95);
+      box-shadow: 0 0 0 0 rgba(0,255,133,0.55);
+      animation: pulse 1.6s ease-out infinite;
+    }
+    @keyframes pulse{
+      0%{ box-shadow: 0 0 0 0 rgba(0,255,133,0.45); }
+      75%{ box-shadow: 0 0 0 12px rgba(0,255,133,0); }
+      100%{ box-shadow: 0 0 0 0 rgba(0,255,133,0); }
+    }
+
+    .links a{
+      color: var(--text);
+      text-decoration:none;
+      border: 1px solid var(--stroke);
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      margin-left: 8px;
+    }
+    .links a:hover{ background: rgba(255,255,255,0.07); }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+    @media (max-width: 860px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.035));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+
+    .hero-main{ padding: 22px 22px 18px; position:relative; }
+    h1{ margin:0; font-size: 44px; letter-spacing: -0.03em; }
+    .sub{ margin-top:10px; font-size:18px; color: var(--muted); max-width: 62ch; }
+
+    .metrics{
+      margin-top: 16px;
+      display:flex; gap:10px; flex-wrap:wrap;
+    }
+    .pill{
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,0.16);
+      border-radius: 999px;
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 13px;
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .pill b{ color: var(--text); font-weight: 650; }
+
+    .sparkline{
+      margin-top: 14px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,0.14);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .sparkline-top{
+      display:flex; justify-content:space-between; align-items:baseline;
+      gap:10px; flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    .sparkline-top .label{ color: var(--muted2); font-size: 12px; }
+    .sparkline-top .value{ color: var(--text); font-size: 12px; }
+
+    .spark{
+      width:100%;
+      height:56px;
+    }
+    .spark path{
+      fill:none;
+      stroke: rgba(255,255,255,0.70);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 320;
+      stroke-dashoffset: 320;
+      animation: draw 2.0s ease forwards;
+    }
+    @keyframes draw{
+      to{ stroke-dashoffset: 0; }
+    }
+
+    .hero-side{
+      display:grid;
+      grid-template-rows: auto 1fr;
+      gap:16px;
+    }
+
+    .profile{
+      display:flex; gap:14px; padding:16px;
+      align-items:center;
+    }
+    .avatar{
+      width:78px; height:78px; border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border:1px solid var(--stroke);
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .avatar img{
+      width:100%; height:100%; object-fit:cover;
+      display:block;
+    }
+    .who .name{ font-weight: 720; }
+    .who .meta{ color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+    .mini{
+      padding: 16px;
+    }
+    .mini h3{ margin:0 0 10px 0; font-size: 14px; color: var(--muted2); font-weight: 650; letter-spacing: 0.02em; text-transform: uppercase; }
+
+    .log{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      color: rgba(255,255,255,0.78);
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,0.18);
+      border-radius: 14px;
+      padding: 12px;
+      overflow:hidden;
+      position:relative;
+    }
+    .log .row{
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      opacity:0.95;
+      margin: 6px 0;
+    }
+    .log .muted{ color: rgba(255,255,255,0.55); }
+    .scanline{
+      position:absolute; left:0; right:0; height:22px;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.06), transparent);
+      top:-22px;
+      animation: scan 2.8s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes scan{
+      to{ transform: translateY(210px); }
+    }
+
+    .section{ margin-top: 18px; }
+    .section h2{
+      margin: 26px 0 12px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.86);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .item{ padding: 16px; }
+    .item h3{ margin:0 0 8px 0; font-size: 16px; }
+    .item .desc{ color: var(--muted); font-size: 13px; }
+    ul{ margin: 10px 0 0; padding-left: 18px; color: rgba(255,255,255,0.82); }
+    li{ margin: 6px 0; }
+
+    .media{
+      padding: 16px;
+    }
+    .video{
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,0.20);
+      border-radius: 16px;
+      overflow:hidden;
+      aspect-ratio: 16 / 9;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+    .video video{ width:100%; height:100%; object-fit:cover; display:block; }
+    .placeholder{
+      color: var(--muted);
+      font-size: 13px;
+      text-align:center;
+      padding: 18px;
+    }
+
+    .foot{
+      margin-top: 26px;
+      color: var(--muted2);
+      font-size: 12px;
+      text-align:center;
+    }
   </style>
 </head>
 <body>
+  <div class="glow"></div>
+
   <div class="wrap">
-    <div class="top">
-      <div>
-        <h1>Your Name</h1>
-        <div class="tag">I help <b>who</b> achieve <b>result</b> by doing <b>what</b>. (One sentence that actually says something.)</div>
-        <div class="cta">
-          <a class="primary" href="mailto:you@email.com">Email me</a>
-          <a href="https://linkedin.com/in/yourprofile">LinkedIn</a>
-          <a href="/assets/CV.pdf">Download CV (PDF)</a>
+    <div class="topbar">
+      <div class="badge">
+        <span class="dot"></span>
+        <span style="color:rgba(255,255,255,0.78); font-size:13px;">
+          status: <b style="color:rgba(255,255,255,0.92);">active / building</b>
+        </span>
+      </div>
+
+      <div class="links">
+        <a href="mailto:you@email.com">Email</a>
+        <a href="https://linkedin.com/in/yourprofile">LinkedIn</a>
+        <a href="/assets/CV.pdf">Download CV</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="card hero-main">
+        <h1>Jussi Antero</h1>
+        <div class="sub">
+          I build high-velocity systems that turn uncertainty into measurable progress —
+          strategy + execution + automation.
+        </div>
+
+        <div class="metrics">
+          <div class="pill">Mode: <b>Operator</b></div>
+          <div class="pill">Focus: <b>Outcomes</b></div>
+          <div class="pill">Edge: <b>Speed + clarity</b></div>
+          <div class="pill">Location: <b>Finland / Remote</b></div>
+        </div>
+
+        <div class="sparkline">
+          <div class="sparkline-top">
+            <div class="label">Momentum (last 30 days)</div>
+            <div class="value">signal ↑ • noise ↓</div>
+          </div>
+          <svg class="spark" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M2,44 C20,40 28,36 42,40 C56,44 68,52 82,46 C96,40 110,18 124,22 C138,26 148,44 162,38 C176,32 186,10 202,14 C218,18 228,32 244,28 C260,24 272,18 298,10"/>
+          </svg>
         </div>
       </div>
-      <div class="card" style="min-width:260px;">
-        <h3>At a glance</h3>
-        <div class="muted">Location: Finland / Remote</div>
-        <div class="muted">Roles: X • Y • Z</div>
-        <div class="muted">Focus: outcomes, systems, speed</div>
+
+      <div class="hero-side">
+        <div class="card profile">
+          <div class="avatar">
+            <!-- Put your photo at /assets/profile.jpg -->
+            <img src="/assets/profile.jpg" alt="Portrait of Jussi Antero" onerror="this.remove();" />
+          </div>
+          <div class="who">
+            <div class="name">At a glance</div>
+            <div class="meta">Roles: founder • builder • growth/operator</div>
+            <div class="meta">Strengths: systems thinking • shipping • analytics</div>
+          </div>
+        </div>
+
+        <div class="card mini">
+          <h3>Activity</h3>
+          <div class="log">
+            <div class="scanline"></div>
+            <div class="row"><span class="muted">[now]</span> iterating: portfolio → case studies → proof</div>
+            <div class="row"><span class="muted">[ship]</span> building: dashboards, automation, web apps</div>
+            <div class="row"><span class="muted">[signal]</span> preference: measurable outcomes & tight feedback loops</div>
+            <div class="row"><span class="muted">[contact]</span> best: email / LinkedIn</div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <h2>Highlights</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Project / Role</h3>
-        <div class="muted">What it was + your responsibility</div>
-        <ul>
-          <li>Did X</li>
-          <li>Improved Y by Z%</li>
-          <li>Shipped in N weeks</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Project / Role</h3>
-        <div class="muted">Short context</div>
-        <ul>
-          <li>Outcome metric</li>
-          <li>Outcome metric</li>
-          <li>Outcome metric</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Project / Role</h3>
-        <div class="muted">Short context</div>
-        <ul>
-          <li>Outcome metric</li>
-          <li>Outcome metric</li>
-          <li>Outcome metric</li>
-        </ul>
+    <div class="section">
+      <div class="card media">
+        <h2>Short video</h2>
+        <div class="video">
+          <!-- Optional: put a short intro video at /assets/intro.mp4 -->
+          <video controls preload="metadata" poster="" onerror="this.remove();">
+            <source src="/assets/intro.mp4" type="video/mp4" />
+          </video>
+          <div class="placeholder">
+            Add <b>/assets/intro.mp4</b> for a 20–40s intro (who you help, how you work, proof).
+          </div>
+        </div>
       </div>
     </div>
 
-    <h2>Core skills</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Strategy</h3>
-        <ul>
-          <li>Go-to-market, positioning</li>
-          <li>Growth systems</li>
-          <li>Analytics and decision-making</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Execution</h3>
-        <ul>
-          <li>Shipping MVPs fast</li>
-          <li>Automation</li>
-          <li>Technical implementation</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Tools</h3>
-        <ul>
-          <li>Cloudflare, GitHub</li>
-          <li>JS/TS, Python</li>
-          <li>Whatever you actually use</li>
-        </ul>
+    <div class="section">
+      <h2>Highlights</h2>
+      <div class="grid">
+        <div class="card item">
+          <h3>Project / Role</h3>
+          <div class="desc">What it was + your responsibility</div>
+          <ul>
+            <li>Did X</li>
+            <li>Improved Y by Z%</li>
+            <li>Shipped in N weeks</li>
+          </ul>
+        </div>
+
+        <div class="card item">
+          <h3>Project / Role</h3>
+          <div class="desc">Short context</div>
+          <ul>
+            <li>Outcome metric</li>
+            <li>Outcome metric</li>
+            <li>Outcome metric</li>
+          </ul>
+        </div>
+
+        <div class="card item">
+          <h3>Project / Role</h3>
+          <div class="desc">Short context</div>
+          <ul>
+            <li>Outcome metric</li>
+            <li>Outcome metric</li>
+            <li>Outcome metric</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <h2>Timeline (optional)</h2>
-    <div class="card">
-      <ul>
-        <li><b>2024–2026</b> — Role / Company — 1–2 lines.</li>
-        <li><b>2021–2024</b> — Role / Company — 1–2 lines.</li>
-        <li><b>Earlier</b> — compress the rest.</li>
-      </ul>
+    <div class="section">
+      <h2>Core skills</h2>
+      <div class="grid">
+        <div class="card item">
+          <h3>Strategy</h3>
+          <ul>
+            <li>Go-to-market, positioning</li>
+            <li>Growth systems</li>
+            <li>Analytics and decision-making</li>
+          </ul>
+        </div>
+        <div class="card item">
+          <h3>Execution</h3>
+          <ul>
+            <li>Shipping MVPs fast</li>
+            <li>Automation</li>
+            <li>Technical implementation</li>
+          </ul>
+        </div>
+        <div class="card item">
+          <h3>Tools</h3>
+          <ul>
+            <li>Cloudflare, GitHub</li>
+            <li>JS/TS, Python</li>
+            <li>Data + dashboards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Timeline</h2>
+      <div class="card item">
+        <ul>
+          <li><b>2024–2026</b> — Role / Company — 1–2 lines.</li>
+          <li><b>2021–2024</b> — Role / Company — 1–2 lines.</li>
+          <li><b>Earlier</b> — compress the rest.</li>
+        </ul>
+      </div>
     </div>
 
     <div class="foot">
-      Tip: keep this page readable in 60 seconds. Put depth behind links.
+      Tip: keep the top of the page readable in 60 seconds. Put depth behind links.
     </div>
   </div>
 </body>
