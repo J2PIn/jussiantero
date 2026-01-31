@@ -17,6 +17,31 @@
       --shadow: 0 18px 45px rgba(0,0,0,0.45);
       --r: 18px;
     }
+        .quote-line{
+      margin-top: 10px;
+      color: rgba(255,255,255,0.82);
+      font-size: 16px;
+      max-width: 70ch;
+      display:flex;
+      gap: 6px;
+      align-items: baseline;
+    }
+    
+    .quote-mark{
+      color: rgba(255,255,255,0.40);
+      font-size: 18px;
+    }
+    
+    #rotatingQuote{
+      display:inline-block;
+      transform-origin: 0 50%;
+      animation: quoteIn 420ms ease both;
+    }
+    
+    @keyframes quoteIn{
+      from { opacity: 0; transform: translateY(6px); filter: blur(2px); }
+      to   { opacity: 1; transform: translateY(0);   filter: blur(0); }
+    }
 
     *{ box-sizing:border-box; }
     body{
@@ -270,6 +295,47 @@
     }
   </style>
 </head>
+  <script>
+  // Put your quotes here. Add as many as you want.
+  const QUOTES = [
+    "Speed is a strategy when feedback is real.",
+    "If you can’t measure it, you can’t improve it — but measure the right thing.",
+    "Build systems that survive your mood.",
+    "Clarity beats intensity.",
+    "Most problems are signal problems, not effort problems."
+  ];
+
+  const el = document.getElementById("rotatingQuote");
+
+  // Shuffle once so it feels fresh every reload.
+  function shuffle(arr){
+    for (let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  const q = shuffle([...QUOTES]);
+  let i = 0;
+
+  function showNext(){
+    if (!el) return;
+
+    // restart animation by toggling it
+    el.style.animation = "none";
+    el.offsetHeight; // trigger reflow
+    el.style.animation = "";
+
+    el.textContent = q[i % q.length];
+    i++;
+  }
+
+  showNext();
+  // 5000–10000ms feels right. 7000ms is a good default.
+  setInterval(showNext, 7000);
+</script>
+
 <body>
   <div class="glow"></div>
 
@@ -292,10 +358,18 @@
     <div class="hero">
       <div class="card hero-main">
         <h1>Jussi Antero</h1>
+
+        <div class="quote-line" aria-live="polite">
+          <span class="quote-mark">“</span>
+          <span id="rotatingQuote">Loading quote…</span>
+          <span class="quote-mark">”</span>
+        </div>
+        
         <div class="sub">
           I build high-velocity systems that turn uncertainty into measurable progress —
           strategy + execution + automation.
         </div>
+
 
         <div class="metrics">
           <div class="pill">Mode: <b>Operator</b></div>
