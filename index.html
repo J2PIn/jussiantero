@@ -534,5 +534,43 @@
       Tip: keep the top of the page readable in 60 seconds. Put depth behind links.
     </div>
   </div>
+  <script>
+  // Add your quotes here. One quote per line.
+  const QUOTES = [
+    "Speed is a strategy when feedback is real.",
+    "Clarity beats intensity.",
+    "Build systems that survive your mood.",
+    "Most problems are signal problems, not effort problems.",
+    "If it’s not measured, it’s a guess."
+  ];
+
+  const el = document.getElementById("rotatingQuote");
+
+  function shuffle(arr){
+    for (let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  const q = shuffle([...QUOTES]);
+  let i = 0;
+
+  function showNext(){
+    if (!el) return;
+
+    // Restart animation
+    el.style.animation = "none";
+    el.offsetHeight; // reflow
+    el.style.animation = "";
+
+    el.textContent = q[i % q.length];
+    i++;
+  }
+
+  showNext();
+  setInterval(showNext, 7000); // change to 5000 or 10000 if you want
+</script>
 </body>
 </html>
