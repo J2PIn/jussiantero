@@ -31,7 +31,12 @@
       color: rgba(255,255,255,0.40);
       font-size: 18px;
     }
-    
+      .copyright{
+    margin-top: 10px;
+    color: rgba(255,255,255,0.50);
+    font-size: 12px;
+    }
+
     #rotatingQuote{
       display:inline-block;
       transform-origin: 0 50%;
@@ -550,6 +555,13 @@
     © <span id="year"></span> Jussi Parviainen 2026. All rights reserved.
   </div>
 </div>
+    <script>
+  (function(){
+    const y = document.getElementById("year");
+    if (y) y.textContent = new Date().getFullYear();
+  })();
+</script>
+
   <script>
 (function(){
   const QUOTES = [
