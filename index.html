@@ -453,6 +453,79 @@
         width: 100%;
         justify-content: flex-start;
       }
+      .human-check {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(10, 10, 10, 0.72);
+        backdrop-filter: blur(8px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      
+      .human-check.is-visible {
+        display: flex;
+      }
+      
+      .human-card {
+        width: min(420px, 100%);
+        background: rgba(255, 255, 255, 0.94);
+        color: #111;
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      
+      .human-eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.55;
+        margin-bottom: 8px;
+      }
+      
+      .human-card h3 {
+        margin: 0 0 10px;
+        font-size: 22px;
+        line-height: 1.15;
+      }
+      
+      .human-card p {
+        margin: 0 0 16px;
+        opacity: 0.75;
+      }
+      
+      .human-options {
+        display: grid;
+        gap: 10px;
+      }
+      
+      .human-option {
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: #f7f7f7;
+        color: #111;
+        border-radius: 14px;
+        padding: 12px 14px;
+        text-align: left;
+        cursor: pointer;
+        font: inherit;
+        transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      }
+      
+      .human-option:hover {
+        transform: translateY(-1px);
+        background: #fff;
+        border-color: rgba(0, 0, 0, 0.24);
+      }
+      
+      .human-feedback {
+        min-height: 20px;
+        margin-top: 14px !important;
+        font-size: 14px;
+      }
     }
 
   </style>
@@ -777,6 +850,21 @@
       <button type="button" class="accept" id="cookieAccept">Accept the vibe</button>
     </div>
   </div>
+<div id="human-check" class="human-check">
+  <div class="human-card">
+    <div class="human-eyebrow">Small human check</div>
+    <h3>Let’s check you are human, not an AI bot.</h3>
+    <p>Pick the most human answer:</p>
 
+    <div class="human-options">
+      <button class="human-option" data-wrong="true">I process tokens efficiently</button>
+      <button class="human-option" id="human-pass">I sometimes open the fridge for no reason</button>
+      <button class="human-option" data-wrong="true">I never overthink anything</button>
+    </div>
+
+    <p id="human-feedback" class="human-feedback"></p>
+  </div>
+</div>
+    
 </body>
 </html>
